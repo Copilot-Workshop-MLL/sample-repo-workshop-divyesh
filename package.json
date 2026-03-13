@@ -1,0 +1,19 @@
+{
+  "name": "sample-repo-workshop",
+  "private": true,
+  "scripts": {
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend start",
+    "test:backend": "npm --prefix backend test",
+    "test:frontend": "CI=true npm --prefix frontend test",
+    "build:frontend": "npm --prefix frontend run build",
+    "test:workshop": "jest test.js",
+    "test": "npm run test:backend && npm run test:frontend"
+  },
+  "dependencies": {
+    "jest": "^30.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
