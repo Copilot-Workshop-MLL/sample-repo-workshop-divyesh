@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AnalyticsPanel from "../components/AnalyticsPanel";
 import EmployeeFilters from "../components/EmployeeFilters";
 import EmployeeForm from "../components/EmployeeForm";
 import EmployeeList from "../components/EmployeeList";
+import FocusTimer from "../components/FocusTimer";
+import ProgressionPanel from "../components/ProgressionPanel";
 import StatsGrid from "../components/StatsGrid";
 import { useAuth } from "../hooks/useAuth";
 import { useEmployees } from "../hooks/useEmployees";
-import { getApiErrorMessage } from "../services/api";
+import {
+  fetchFocusProgression,
+  fetchFocusStats,
+  getApiErrorMessage,
+  recordFocusSession,
+} from "../services/api";
 
 /**
  * Renders the employee dashboard.
@@ -20,6 +28,26 @@ function DashboardPage() {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [banner, setBanner] = useState({ type: "", message: "" });
+  const [progression, setProgression] = useState(null);
+  const [focusStats, setFocusStats] = useState(null);
+
+  const loadFocusData = useCallback(async () => {
+    if (!token) return;
+    try {
+      const [prog, stats] = await Promise.all([
+        fetchFocusProgression(token),
+        fetchFocusStats(token),
+      ]);
+      setProgression(prog);
+      setFocusStats(stats);
+    } catch {
+      // Non-critical: focus data failing should not break the dashboard
+    }
+  }, [token]);
+
+  useEffect(() => {
+    loadFocusData();
+  }, [loadFocusData]);
 
   const departmentOptions = stats?.departments?.map((entry) => entry.name) || [];
   const roleOptions = stats?.roles?.map((entry) => entry.name) || [];
@@ -132,7 +160,22 @@ function DashboardPage() {
    */
   async function handleRefresh() {
     await reload();
+    await loadFocusData();
     setBanner({ type: "success", message: "Dashboard refreshed." });
+  }
+
+  /**
+   * Records a completed focus session and refreshes progression data.
+   * @param {number} durationMinutes The session duration in minutes.
+   * @returns {Promise<void>}
+   */
+  async function handleSessionComplete(durationMinutes) {
+    try {
+      await recordFocusSession(token, durationMinutes);
+      await loadFocusData();
+    } catch (requestError) {
+      setBanner({ type: "error", message: getApiErrorMessage(requestError) });
+    }
   }
 
   return (
@@ -163,6 +206,13 @@ function DashboardPage() {
       {error ? <div className="status-banner error">{error}</div> : null}
 
       <StatsGrid stats={stats} />
+
+      <div className="focus-section">
+        <FocusTimer token={token} onSessionComplete={handleSessionComplete} />
+        <ProgressionPanel progression={progression} />
+      </div>
+
+      <AnalyticsPanel focusStats={focusStats} />
 
       <section className="dashboard-layout">
         <div className="dashboard-main">
