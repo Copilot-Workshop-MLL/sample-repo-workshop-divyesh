@@ -414,6 +414,179 @@ h3,
   font-size: 0.95rem;
 }
 
+/* ─── Focus Timer ─────────────────────────────────────────────────────────── */
+
+.focus-timer {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 1rem;
+  text-align: center;
+  transition: background 400ms ease, box-shadow 400ms ease;
+}
+
+.focus-timer--active {
+  background: linear-gradient(
+    135deg,
+    rgba(74, 158, 255, 0.1),
+    rgba(255, 252, 248, 0.92)
+  );
+  box-shadow: 0 18px 45px rgba(74, 158, 255, 0.14);
+}
+
+.focus-timer-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.focus-timer-ring-wrap {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+}
+
+.focus-timer-ring {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.focus-timer-track {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 8;
+}
+
+.focus-timer-progress {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition:
+    stroke-dashoffset 800ms ease,
+    stroke 600ms ease;
+}
+
+.focus-timer-display {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+}
+
+.focus-timer-time {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.focus-timer-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.focus-timer-controls {
+  justify-content: center;
+}
+
+/* Floating particle effects (active state only) */
+.focus-timer-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.focus-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  opacity: 0;
+  background: currentColor;
+}
+
+.focus-particle--1 {
+  color: #4a9eff;
+  top: 15%;
+  left: 10%;
+  animation: focus-float 3.2s 0s ease-in-out infinite;
+}
+
+.focus-particle--2 {
+  color: #f5c842;
+  top: 65%;
+  left: 18%;
+  animation: focus-float 2.8s 0.6s ease-in-out infinite;
+}
+
+.focus-particle--3 {
+  color: #e05252;
+  top: 30%;
+  left: 85%;
+  animation: focus-float 3.5s 1.1s ease-in-out infinite;
+}
+
+.focus-particle--4 {
+  color: #4a9eff;
+  top: 75%;
+  left: 75%;
+  animation: focus-float 2.6s 0.3s ease-in-out infinite;
+}
+
+.focus-particle--5 {
+  color: #f5c842;
+  top: 10%;
+  left: 55%;
+  animation: focus-float 3s 1.4s ease-in-out infinite;
+}
+
+.focus-particle--6 {
+  color: #e05252;
+  top: 50%;
+  left: 42%;
+  animation: focus-float 2.4s 0.8s ease-in-out infinite;
+}
+
+@keyframes focus-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.3);
+    opacity: 0.5;
+  }
+  80% {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .focus-timer-progress {
+    transition: none;
+  }
+
+  .focus-particle {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+
 @media (max-width: 980px) {
   .auth-hero,
   .dashboard-layout,
