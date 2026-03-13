@@ -114,3 +114,48 @@ export async function fetchDashboardStats(token) {
   const response = await apiClient.get("/dashboard/stats", getAuthConfig(token));
   return response.data.data;
 }
+
+/**
+ * Records a completed focus session for the authenticated user.
+ * @param {string} token The bearer token.
+ * @param {number} durationMinutes The session duration in minutes.
+ * @returns {Promise<{ session: object, progression: object }>} The saved session and updated progression.
+ */
+export async function recordFocusSession(token, durationMinutes) {
+  const response = await apiClient.post(
+    "/focus/sessions",
+    { durationMinutes },
+    getAuthConfig(token)
+  );
+  return response.data.data;
+}
+
+/**
+ * Fetches the focus session history for the authenticated user.
+ * @param {string} token The bearer token.
+ * @returns {Promise<Array<object>>} The session list.
+ */
+export async function fetchFocusSessions(token) {
+  const response = await apiClient.get("/focus/sessions", getAuthConfig(token));
+  return response.data.data;
+}
+
+/**
+ * Fetches the XP, level, and badge progression for the authenticated user.
+ * @param {string} token The bearer token.
+ * @returns {Promise<{ xp: number, level: number, badges: Array<string> }>} The progression data.
+ */
+export async function fetchFocusProgression(token) {
+  const response = await apiClient.get("/focus/progression", getAuthConfig(token));
+  return response.data.data;
+}
+
+/**
+ * Fetches the weekly and monthly focus statistics for the authenticated user.
+ * @param {string} token The bearer token.
+ * @returns {Promise<{ totalSessions: number, weekly: Array<object>, monthly: Array<object> }>} The stats data.
+ */
+export async function fetchFocusStats(token) {
+  const response = await apiClient.get("/focus/stats", getAuthConfig(token));
+  return response.data.data;
+}
