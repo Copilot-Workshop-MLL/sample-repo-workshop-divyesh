@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import EmployeeFilters from "../components/EmployeeFilters";
 import EmployeeForm from "../components/EmployeeForm";
 import EmployeeList from "../components/EmployeeList";
+import FocusTimer from "../components/FocusTimer";
 import StatsGrid from "../components/StatsGrid";
 import { useAuth } from "../hooks/useAuth";
 import { useEmployees } from "../hooks/useEmployees";
@@ -177,6 +178,7 @@ function DashboardPage() {
         </div>
 
         <aside className="dashboard-sidebar">
+          <FocusTimer />
           <EmployeeForm
             employee={selectedEmployee}
             onSubmit={handleSubmit}
