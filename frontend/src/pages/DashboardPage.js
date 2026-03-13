@@ -227,6 +227,7 @@ function DashboardPage() {
         </div>
 
         <aside className="dashboard-sidebar">
+          <FocusTimer />
           <EmployeeForm
             employee={selectedEmployee}
             onSubmit={handleSubmit}
