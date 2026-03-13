@@ -15,3 +15,17 @@ CREATE TABLE IF NOT EXISTS employees (
   hire_date DATE NOT NULL,
   salary NUMERIC(12, 2) NOT NULL CHECK (salary >= 0)
 );
+
+CREATE TABLE IF NOT EXISTS focus_sessions (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  duration_minutes INTEGER NOT NULL CHECK (duration_minutes > 0),
+  completed_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS user_progression (
+  user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  xp INTEGER NOT NULL DEFAULT 0 CHECK (xp >= 0),
+  level INTEGER NOT NULL DEFAULT 1 CHECK (level >= 1),
+  badges TEXT[] NOT NULL DEFAULT '{}'
+);

@@ -10,6 +10,17 @@ const defaultUsers = [
   },
 ];
 
+const defaultFocusSessions = [];
+
+const defaultUserProgression = [
+  {
+    userId: "user-admin-1",
+    xp: 0,
+    level: 1,
+    badges: [],
+  },
+];
+
 const defaultEmployees = [
   {
     id: "emp-1001",
@@ -60,12 +71,17 @@ const defaultEmployees = [
 
 /**
  * Creates a fresh copy of the seed data for the in-memory store.
- * @returns {{ users: Array<object>, employees: Array<object> }} A deep copy of the seed data.
+ * @returns {{ users: Array<object>, employees: Array<object>, focusSessions: Array<object>, userProgression: Array<object> }} A deep copy of the seed data.
  */
 function createSeedState() {
   return {
     users: defaultUsers.map((user) => ({ ...user })),
     employees: defaultEmployees.map((employee) => ({ ...employee })),
+    focusSessions: defaultFocusSessions.map((session) => ({ ...session })),
+    userProgression: defaultUserProgression.map((progression) => ({
+      ...progression,
+      badges: [...progression.badges],
+    })),
   };
 }
 

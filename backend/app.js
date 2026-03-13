@@ -5,6 +5,7 @@ const express = require("express");
 const authRoutes = require("./routes/authRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
+const focusRoutes = require("./routes/focusRoutes");
 const { isDatabaseEnabled } = require("./config/db");
 const { errorHandler, notFoundHandler } = require("./middleware/errorHandler");
 
@@ -51,6 +52,7 @@ app.get("/api/health", getHealthStatus);
 app.use("/api/auth", authRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/focus", focusRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
