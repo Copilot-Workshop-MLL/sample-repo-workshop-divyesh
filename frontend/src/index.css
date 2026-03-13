@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap");
 
-:root {
+:root,
+[data-theme="light"] {
   --bg: #f6f1e8;
   --bg-accent: #efdcc4;
   --panel: rgba(255, 252, 248, 0.9);
@@ -17,6 +18,59 @@
   --radius-lg: 28px;
   --radius-md: 18px;
   --radius-sm: 12px;
+  --focus-ring-track: rgba(30, 31, 27, 0.1);
+  --focus-ring-progress: #b85c38;
+  --body-bg-1: rgba(184, 92, 56, 0.14);
+  --body-bg-2: rgba(47, 122, 90, 0.16);
+  --body-bg-gradient: linear-gradient(180deg, #fbf7f1 0%, var(--bg) 48%, #efe4d6 100%);
+}
+
+[data-theme="dark"] {
+  --bg: #1a1a1e;
+  --bg-accent: #252529;
+  --panel: rgba(36, 36, 42, 0.92);
+  --panel-strong: #2a2a31;
+  --ink: #e8e6e0;
+  --muted: #9c9890;
+  --line: rgba(232, 230, 224, 0.1);
+  --accent: #e07a52;
+  --accent-deep: #c95f35;
+  --accent-soft: rgba(224, 122, 82, 0.15);
+  --success: #3fa374;
+  --error: #c95f5f;
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --focus-ring-track: rgba(232, 230, 224, 0.1);
+  --focus-ring-progress: #e07a52;
+  --body-bg-1: rgba(224, 122, 82, 0.08);
+  --body-bg-2: rgba(63, 163, 116, 0.08);
+  --body-bg-gradient: linear-gradient(180deg, #1a1a1e 0%, #1e1e24 48%, #18181c 100%);
+}
+
+[data-theme="focus"] {
+  --bg: #0f1117;
+  --bg-accent: #16181f;
+  --panel: rgba(20, 22, 30, 0.96);
+  --panel-strong: #1a1c24;
+  --ink: #d4d2cc;
+  --muted: #7a7870;
+  --line: rgba(212, 210, 204, 0.08);
+  --accent: #5b8dee;
+  --accent-deep: #3a6fdb;
+  --accent-soft: rgba(91, 141, 238, 0.12);
+  --success: #3fa374;
+  --error: #c95f5f;
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --focus-ring-track: rgba(212, 210, 204, 0.08);
+  --focus-ring-progress: #5b8dee;
+  --body-bg-1: rgba(91, 141, 238, 0.06);
+  --body-bg-2: rgba(63, 163, 116, 0.04);
+  --body-bg-gradient: linear-gradient(180deg, #0f1117 0%, #111318 48%, #0d0f14 100%);
 }
 
 * {
@@ -34,9 +88,10 @@ body {
   color: var(--ink);
   font-family: "IBM Plex Sans", sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(184, 92, 56, 0.14), transparent 24%),
-    radial-gradient(circle at 85% 15%, rgba(47, 122, 90, 0.16), transparent 20%),
-    linear-gradient(180deg, #fbf7f1 0%, var(--bg) 48%, #efe4d6 100%);
+    radial-gradient(circle at top left, var(--body-bg-1), transparent 24%),
+    radial-gradient(circle at 85% 15%, var(--body-bg-2), transparent 20%),
+    var(--body-bg-gradient);
+  transition: background 300ms ease, color 300ms ease;
 }
 
 button,
@@ -411,5 +466,152 @@ h3,
   .danger-button {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* ── Focus Timer ── */
+
+.focus-timer {
+  display: grid;
+  gap: 1.2rem;
+  padding: 1.5rem;
+  transition: background 300ms ease;
+}
+
+.focus-timer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.focus-timer-header .section-title {
+  margin: 0;
+}
+
+.focus-timer-body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto;
+}
+
+.focus-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.focus-ring-track {
+  fill: none;
+  stroke: var(--focus-ring-track);
+  stroke-width: 7;
+}
+
+.focus-ring-progress {
+  fill: none;
+  stroke: var(--focus-ring-progress);
+  stroke-width: 7;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 800ms linear;
+}
+
+.focus-timer-display {
+  position: relative;
+  text-align: center;
+}
+
+.focus-time {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.focus-done-label {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--success);
+}
+
+.focus-timer-controls {
+  justify-content: center;
+}
+
+.focus-settings {
+  display: grid;
+  gap: 0.9rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.focus-setting-group {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.focus-setting-inline {
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.focus-setting-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.focus-option-row {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.focus-option-btn {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: transparent;
+  color: var(--muted);
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.focus-option-btn:hover {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  border-color: var(--accent-soft);
+}
+
+.focus-option-btn.active {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  border-color: transparent;
+}
+
+.focus-option-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Focus mode hides decorative elements for minimal UI */
+[data-theme="focus"] .eyebrow,
+[data-theme="focus"] .page-subtitle,
+[data-theme="focus"] .stats-grid {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .focus-ring-progress {
+    transition: none;
   }
 }
